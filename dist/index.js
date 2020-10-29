@@ -103,9 +103,10 @@ const checkDuplicate = (defaults, msg) => (
     let isDuplicate = await checkDuplicate(defaults, message);
 
     if (!core.getInput('check-for-duplicates')) {
-      /* create comment */
+      console.log('check-for-duplicates is false. Sending message');
       await createComment(defaults, message) 
     } else {
+      console.log('check-for-dups is true. Checking dups first');
       const isDuplicate = await checkDuplicate(defaults, message);
       !isDuplicate
         ? await createComment(defaults, message) 
