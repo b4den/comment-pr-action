@@ -1,20 +1,18 @@
-# Comment on PR action
+# Comment on PR Github Action
 
-Just like [comment-on-pr](https://github.com/unsplash/comment-on-pr), but without the overhead of including a separate Docker image into your action. 
+Just like [comment-on-pr](https://github.com/unsplash/comment-on-pr), but without the overhead of including a separate Docker image into your action. This version Also supports CircleCI and can be run standalone from almost anywhere.
 
-This has the added benefits of _not_ including a separate operating system runtime, no additional gems/ npm packages and is distributed as a single JavaScript file that is run natively by Github Actions. This also speeds up your action flows by reducing the need to pull a docker image into your flow, over the network, just for the sake of commenting on a PR. See [this article](https://docs.github.com/en/free-pro-team@latest/actions/creating-actions/about-actions#:~:text=For%20actions%20that%20must%20run,are%20slower%20than%20JavaScript%20actions.) for more information.
-
-This action prints a message on a pull request, or push event. 
+This action prints a message on a pull request, or push event.
 
 ## Inputs
 
 ### `message`
 
-**Required** The message to write on the PR. Default `""`.
+**Required** The comment to write on the pull request.
 
 ### `check-for-duplicates`
 
-**Required** Checks to see if message exists before posting Default `true`.
+**Optional** Checks to see if message exists before posting. Default `true`.
 
 ## Example usage
 
@@ -41,3 +39,15 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           with:
             message: "PR test comment."
+            check-for-duplicates: false
+
+```
+## Additional use-cases
+
+You can also use this executable directly within your CircleCI environments to post-back to Github. You'll need the following enabled in env:
+
+1. `GITHUB_PAT`: A personal access token with appropriate repository permissions for commenting on pull requests
+2. `CIRCLE_PULL_REQUEST`: A string value representing the following structure: `https://github.com/:owner/:repo/pull/:number`. This should be populated by default.
+
+
+One file, two platforms, no dependencies.
