@@ -1,5 +1,5 @@
 name: 'Comment on PR'
-description: 'Programatically comment on a PR within an action'
+description: 'Leaves a comment on an open PR matching a push event.'
 inputs:
   message:  # input message
     description: 'Text to write'
