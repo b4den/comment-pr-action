@@ -1,0 +1,10 @@
+name: 'Comment on PR'
+description: 'Programatically comment on a PR within an action'
+inputs:
+  message:  # input message
+    description: 'Text to write'
+    required: true
+    default: ''
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
