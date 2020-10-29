@@ -41,13 +41,12 @@ const parseGithubActions = async () => {
   const event = require(process.env.GITHUB_EVENT_PATH);
   const owner = event.repository.owner.name;
   const repo = event.repository.name;
-  console.log(owner, repo);
 
   /* Lets check to see if this is an open-pr, or an existing PR that requires a
    * re-parse */
   let prNumber;
   if (process.env.GITHUB_EVENT_NAME !== "pull_request") {
-    console.log("not a pull request");
+    console.log("This looks like a push event");
 
     const pushHead = event.after;
     const res = await listPulls({ owner, repo });
@@ -102,11 +101,13 @@ const checkDuplicate = (defaults, msg) => (
     const data = await getPulls(defaults);
     let isDuplicate = await checkDuplicate(defaults, message);
 
+    console.log(typeof core.getInput('check-for-duplicates'));
+    console.log(core.getInput('check-for-duplicates'));
     if (core.getInput('check-for-duplicates') === "false") {
-      console.log('check-for-duplicates is false. Sending message');
+      console.log('check-for-duplicates is false. Writing comment.');
       await createComment(defaults, message) 
     } else {
-      console.log('check-for-dups is true. Checking dups first');
+      console.log('check-for-duplicates is true. Checking to see if message exists before posting');
       const isDuplicate = await checkDuplicate(defaults, message);
       !isDuplicate
         ? await createComment(defaults, message) 
