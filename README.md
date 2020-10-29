@@ -1,16 +1,20 @@
 # Hello world javascript action
 
-This action prints "Hello World" or "Hello" + the name of a person to greet to the log.
+This action prints a message on the PR its used in. 
 
 ## Inputs
 
-### `who-to-greet`
+### `message`
 
-**Required** The name of the person to greet. Default `"World"`.
+**Required** The message to write on the PR. Default `""`.
 
 
 ## Example usage
 
-uses: actions/action-name@v1.1
-with:
-  message: 'Mona the Octocat'
+```
+uses: b4den/comment-pr-action@master
+  env:
+	GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  with:
+	message: "Testing message"
+```

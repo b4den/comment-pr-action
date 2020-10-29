@@ -5,6 +5,10 @@ inputs:
     description: 'Text to write'
     required: true
     default: ''
+  check-for-duplicates:
+    description: "If false, action doesn't check for duplicate msg"
+    required: false
+    default: true
 runs:
   using: 'node12'
   main: 'dist/index.js'

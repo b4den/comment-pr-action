@@ -93,14 +93,16 @@ const checkDuplicate = (defaults, msg) => (
 
 (async () => {
   try {
-    if (!process.argv[2] && !process.env.GITHUB_TOKEN) logAndExit("No message argument given", 1);
+    if (!process.argv[2] && !process.env.GITHUB_TOKEN) logAndExit("Did you pass GITHUB_TOKEN as env?", 1);
 
     /* Lets first check if we're in a Github Action or not */
     const defaults = process.env.GITHUB_TOKEN ? await parseGithubActions() : parseGithubCircleCI();
     const message = !process.env.GITHUB_TOKEN ? process.argv[2] : core.getInput('message');
 
     const data = await getPulls(defaults);
-    const isDuplicate = await checkDuplicate(defaults, message);
+    let isDuplicate = false;
+    if (core.getInput('check-for-duplicates')) 
+      isDuplicate = await checkDuplicate(defaults, message);
 
     !isDuplicate
       ? await createComment(defaults, message) 
