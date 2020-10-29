@@ -25,3 +25,19 @@ uses: b4den/comment-pr-action@master
   with:
     message: "Testing message"
 ```
+
+## Complete sample
+```
+name: comment-on-pr example
+on: pull_request
+jobs:
+  example:
+    name: sample comment
+    runs-on: ubuntu-latest
+    steps:
+      - name: comment PR
+        uses: b4den/comment-pr-action@master
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            message: "PR test comment."

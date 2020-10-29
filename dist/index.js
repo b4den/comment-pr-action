@@ -100,16 +100,17 @@ const checkDuplicate = (defaults, msg) => (
     const message = !process.env.GITHUB_TOKEN ? process.argv[2] : core.getInput('message');
 
     const data = await getPulls(defaults);
-    let isDuplicate = false;
-    if (core.getInput('check-for-duplicates'))  {
-      console.log('checking for duplicates.');
-      isDuplicate = await checkDuplicate(defaults, message);
+    let isDuplicate = await checkDuplicate(defaults, message);
+
+    if (!core.getInput('check-for-duplicates')) {
+      /* create comment */
+      await createComment(defaults, message) 
+    } else {
+      const isDuplicate = await checkDuplicate(defaults, message);
+      !isDuplicate
+        ? await createComment(defaults, message) 
+        : console.log('[*] Found duplicate comment. Exiting');
     }
-
-    !isDuplicate
-      ? await createComment(defaults, message) 
-      : console.log('[*] Found duplicate comment. Exiting');
-
   } catch (err) {
     console.log(`Error occured: ${err}`);
   }
