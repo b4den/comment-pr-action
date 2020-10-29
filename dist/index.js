@@ -102,8 +102,7 @@ const checkDuplicate = (defaults, msg) => (
     const data = await getPulls(defaults);
     let isDuplicate = await checkDuplicate(defaults, message);
 
-    console.log(core.getInput('check-for-duplicates'));
-    if (!core.getInput('check-for-duplicates')) {
+    if (core.getInput('check-for-duplicates') === "false") {
       console.log('check-for-duplicates is false. Sending message');
       await createComment(defaults, message) 
     } else {
